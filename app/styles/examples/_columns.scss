@@ -1,0 +1,32 @@
+.example__columns--simple {
+  -moz-columns: 5;
+  columns: 5;
+}
+
+.example__columns--colwidth {
+  -moz-columns: 5 150px;
+  columns: 5 150px;
+}
+
+.example__columns--colwidth-mediaq {
+  -moz-columns: 1;
+  columns: 1;
+  @media all and (min-width: 500px) {
+    -moz-columns: 5 150px;
+    columns: 5 150px;
+  }
+}
+
+.example__columns--final {
+  -moz-columns: 1;
+  columns: 1;
+  @media all and (min-width: 500px) {
+    -moz-columns: 5 150px;
+    columns: 5 1500px;
+  }
+
+  li {
+    border-bottom: $border-faded;
+    padding: ($indent-small / 2) 0;
+  }
+}

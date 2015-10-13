@@ -1,0 +1,131 @@
+extends ./layout.jade
+include ./mixins.jade
+
+block content
+  - const itemList = ['3C&E LSF H6243B', '3C&E PVC H6243Y', 'Arctic Grade Flex', 'Belden Equivalent', 'Bellwire', 'CAT5E Data Cable', 'CAT6 Data Cable', 'CCTV RG59', 'Cable Accessories', 'Coaxial & Satellite', 'Control CY', 'Control SY', 'Control YY', 'Defence Standard', 'FP Plus Enhanced', 'FP100', 'FP200 Gold', 'Festoon 6192P', 'Fire Performance', 'Instrumentation BS5308', 'Insulated Tails 6181Y', 'LSF LSZH Flex', 'Luminaire', 'MICC Light Duty', 'Multiuse', 'NYM-J', 'PVC Flex', 'PVC Flex Heat Resist', 'Rubber Flex TQ', 'Rubber Flex TRS', 'Rubber HO7RN-F', 'SWA Split Concentric', 'SWA XLPE LSF', 'SWA XLPE PVC', 'Security Alarm', 'Single C&E 6241Y', 'Singles LSF 6491B', 'Singles PVC 6491X', 'Solar PV', 'Speaker', 'T&E LSF H6242B', 'T&E PVC H6242Y', 'Telephone', 'Tri-Rated & BS6195', 'Tuf Sheath', 'Welding']
+  - const sections = ['Basic usage', 'Defined widths', 'With media queries', 'Adding styling']
+  article.article
+    header.article__header
+      h1.article__title Columns
+      h2.article__subtitle Automatically distribute child elements into a column structure.
+
+    +articleLede
+      :markdown
+        Usecase: blocks of text, lists of items. For example, large dropdown menu
+        lists of categories/tags. Gracefully degrades to a single column in
+        unsupported browsers. *CSS columns do not provide much in the way of
+        control, so generally avoid using for non-text elements.*
+
+    +articleContents(sections)
+
+    +articleChapter(sections[0])
+      :markdown
+        > **Important note for Firefox users:** FF does not implement `columns`
+        > without its vendor prefix (*ie* `-moz-columns`). As Autoprefixer
+        > *et al* do their work at the build stage, columns often will not
+        > work during development with frameworks like Rails; as a result,
+        > always prefix this property.
+
+        Take a drop-down menu that looks like this (a long list of subcategories
+        divvied up into five columns):
+
+      +staticExample('A large dropdown menu showing a list of subcategories.')
+        img(src="images/source__category-dropdown.png")
+
+      :markdown
+        Assuming the structure has been simplified to this:
+
+            <ul class="subcategories">
+              <li class="subcategory-list-item">3C&E LSF H6243B</li>
+              <li class="subcategory-list-item">3C&E PVC H6243Y</li>
+              <li class="subcategory-list-item">Arctic Grade Flex</li>
+              <li class="subcategory-list-item">Belden Equivalent</li>
+              <li class="subcategory-list-item">Bellwire</li>
+              <li class="subcategory-list-item">CAT5E Data Cable</li>
+              <li class="subcategory-list-item">CAT6 Data Cable</li>
+              <li class="subcategory-list-item">CCTV RG59</li>
+              ...snip
+            </ul>
+
+        At its most basic level, the CSS can look like this:
+
+            .subcategory-list {
+              columns: 5;
+            }
+
+        The above CSS produces this:
+
+      +staticExample('The `columns` property at its most basic')
+        ul.subcategory-list.example__columns--simple
+          each item in itemList
+            li.subcategory-list-item= item
+
+      :markdown
+        > The `columns` property is a shorthand for `column-width` and
+        > `column-count`. If a single unitless value *n* is used, the renderer
+        > will default to using to *n* columns. If a single value *x* with
+        > specified units is used, the renderer will attempt to fit as many
+        > columns of *x* width in as possible.
+
+        This will stay as five columns regardless of the width. To deal with
+        this, there are two approaches, which can be mixed and matched to best
+        effect.
+
+    +articleChapter(sections[1])
+      :markdown
+        Firstly, a minimum size can be specified:
+
+            .subcategory-list {
+              columns: 5 150px;
+            }
+
+        Now, if the browser is resized, the column-count will go down if the
+        column width drops below the specified amount. For example, if you're
+        viewing this on a mobile, there should be one or two columns rather
+        than the specified five:
+
+      +staticExample('Combining `column-count` with `column-width`')
+        ul.subcategory-list.example__columns--colwidth
+          each item in itemList
+            li.subcategory-list-item= item
+
+    +articleChapter(sections[2])
+      :markdown
+        This can be combined with a media query for more fine-grained control.
+        For example, it may well be preferable to always have the items in a
+        single column at anything even approaching mobile size; say, to
+        switch to a toggleable flyout menu.
+
+            .subcategory-list {
+              columns: 1;
+              @media all and(min-width: 400px) {
+                columns: 5 150px;
+              }
+            }
+
+      +staticExample('Combining `columns` with a media query')
+        ul.subcategory-list.example__columns--colwidth-mediaq
+          each item in itemList
+            li.subcategory-list-item= item
+
+    +articleChapter(sections[3])
+      :markdown
+        The styling can then be applied as normal:
+
+            .subcategory-list {
+              columns: 1;
+              @media all and(min-width: 400px) {
+                columns: 5 150px;
+              }
+              font-size: $my-menu-font-size;
+            }
+
+            .subcategory-list-item {
+              border-bottom: 1px solid grey;
+              padding: $some-small-amount-of-padding 0;
+            }
+
+      +staticExample('Adding styling')
+        ul.subcategory-list.tiny.example__columns--final
+          each item in itemList
+            li.subcategory-list-item= item

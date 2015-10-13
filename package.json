@@ -1,0 +1,51 @@
+{
+  "name": "css-guides",
+  "version": "0.0.1",
+  "description": "Flex, column and grid examples.",
+  "scripts": {
+    "build": "brunch build",
+    "watch": "brunch watch",
+    "lint": "eslint app/**/*.js",
+    "tape": "babel-node node_modules/argg test/*.js",
+    "istanbul": "npm run build && istanbul cover --dir coverage/istanbul node_modules/argg test/*.js --report lcovonly",
+    "coverage": "npm run build && istanbul cover --dir coverage/istanbul node_modules/argg test/*.js --report html",
+    "coveralls": "cat ./coverage/istanbul/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "plato": "plato -d coverage/plato public/app.js",
+    "test": "npm run istanbul && npm run coveralls"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [
+    "css",
+    "css3",
+    "es6",
+    "es2015",
+    "flexbox",
+    "flex",
+    "babel",
+    "brunch",
+    "boilerplate",
+    "starter",
+    "tape"
+  ],
+  "author": "Daniel Couper <danielcouper@sutor-design.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "argg": "0.0.2",
+    "babel": "^5.8.23",
+    "babel-brunch": "^5.1.2",
+    "babel-eslint": "^4.1.1",
+    "brunch": "^1.8.5",
+    "coveralls": "^2.11.4",
+    "css-brunch": "^1.7.0",
+    "eslint": "^1.3.1",
+    "istanbul": "^0.3.19",
+    "jaded-brunch": "^1.7.13",
+    "javascript-brunch": "^1.7.1",
+    "jstransformer-markdown": "^1.1.0",
+    "plato": "^1.5.0",
+    "sass-brunch": "^1.9.1",
+    "tape": "^4.2.0"
+  }
+}

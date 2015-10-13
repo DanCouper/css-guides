@@ -1,0 +1,33 @@
+/**
+ * Description: Basic rules for media
+ * Version: 0.7.0
+ * Last update: 2014/12/10
+ * Dependencies: n/a
+ *
+ * Summary:
+ *  Sets up extremely basic rules for media.
+ *  Taken from https://github.com/inuitcss/base.images/blob/master/_base.images.scss
+ *
+ *  1. IMAGES
+ */
+
+/* ==========================================================================
+   1. IMAGES
+   ========================================================================== */
+/*
+ * Fluid images. The vertical-align:middle removes whitespace
+ * from below images when they are just used as-is.
+ */
+img,
+object,
+embed {
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+/*
+ * If a `width` has been explicitly defined, do not make the image fluid.
+ */
+img[width] {
+  max-width: none;
+}

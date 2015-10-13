@@ -1,0 +1,58 @@
+/**
+ * Description: Base for attractive tables
+ * Version: 0.8.0
+ * Last update: 2015/05/22
+ * Dependencies: _global-defaults.scss
+ * Summary:
+ *  Mainly torn from Bootstrap.
+ *  TODO could do with a look, is maybe too specified.
+ *
+ */
+
+// ==========================================================================
+// i. SCOPED VARIABLES
+// ==========================================================================
+
+// if(viewport width < breakpoint) table overflows & scrolls
+// on the x-axis, rather than wrapping the contents.
+$table-breakpoint: $base-breakpoint;
+
+/* ==========================================================================
+   1. TABLES
+   ========================================================================== */
+
+table {
+  table-layout: fixed;
+  /* Push tables to full width by default */
+  width: 100%;
+
+  th {
+    text-align: left;
+    }
+
+  th,
+  td {
+    vertical-align: top;
+    }
+
+  /* Bottom align for column headings */
+  thead th {
+    vertical-align: bottom;
+    }
+  }
+
+
+@media screen and (max-width: $table-breakpoint) {
+  table {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    width: 100%;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+    /* Ensure the content doesn't wrap */
+    th,
+    td {
+      white-space: nowrap;
+      }
+    }
+  }

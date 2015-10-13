@@ -1,0 +1,573 @@
+extends ./layout.jade
+include ./mixins.jade
+
+block content
+  -
+    const sections = [
+      'Introduction',
+      'Complete basics',
+      'Wrapping lines of content',
+      'Justifying lines of content',
+      'Aligning a line of items',
+      'Aligning multiple lines of items',
+      'Controlling the size of individual items',
+      'Flex: the flex-grow property',
+      'Flex: the flex-shrink property',
+      'Flex: the flex-basis property',
+      'Aligning individual items',
+      'Ordering individual items'
+      ]
+
+  article.article
+    header.article__header
+      h1.article__title Flexbox Deep Dive
+      h2.article__subtitle Native, flexible layouts without need for frameworks.
+
+    +articleLede
+      :markdown
+        Some intro text...
+
+    +articleContents(sections)
+
+    +articleChapter(sections[0])
+      :markdown
+        Flexbox is a native CSS layout model optimised for user interfaces.
+
+        CSS 2.1 [defined four layout modes](http://www.w3.org/TR/css-flexbox-1/#intro):
+
+        1. **Block layout**, for structuring documents: `<div>`, `<p>`, `<header>`,
+           `<footer>` are all examples of block-level elements. Without styling,
+           they take up 100% of the width of the viewport, and stack in order of
+           their position in the actual HTML.
+        2. **Inline layout**, for structuring text. Several tags specify inline
+           elements, including `<a>`, `<img>`, `<strong>` and `<em>`. Without
+           styling, they are the size of their content. They sit in a row in
+           order of their appearance in the HTML, wrapping when reaching the
+           end of line.
+        3. **Table layout**, for structured data displayed in a tabular format.
+        4. **Positioned layout**, which allows for explicit positioning of
+           elements. Applied via `position: absolute | fixed | relative`. Shifts
+           the elements out of the normal document flow; visually, elements
+           can be in a different order to how they appear in the HTML.
+
+        Current methods of CSS layout involve careful hacking of these modes.
+        Common solutions include floats (with clearfix), `display: table` or
+        `display: inline-block`, all in combination with layered wrapper
+        elements.
+
+        **Flex**, the fifth layout mode, aims to remove the need for these hacks.
+        Out of the box, flex allows (among other things):
+
+        * Equal height columns.
+        * Vertical centering.
+        * Automatic wrapping of grid rows to the next line.
+        * Infinite nested grids.
+        * Elements that expand to fill the remaining space in a row.
+        * Modification of the display order of elements via CSS.
+
+        **Note**: *Flex solves the issue of UI component layout. For high-level
+        structuring of apps/documents, the
+        [CSS grid layouts module](https://www.youtube.com/watch?v=G7EIAgfkhmg)
+        provides a robust layout system. However, it is not yet implemented
+        cross-browser, and the spec is in flux. As things stand, Flex works
+        well for grid layouts.*
+
+    +articleChapter(sections[1])
+      :markdown
+        For these basic examples, the HTML is simply a list, and I've reset
+        all the styling, and coloured each box individually. Code like so:
+
+            <ul class="flex-container">
+              <li class="flex-item item-1">Item 1</li>
+              <li class="flex-item item-2">Item 2</li>
+              <li class="flex-item item-3">Item 3</li>
+              <li class="flex-item item-4">Item 4</li>
+              <li class="flex-item item-5">Item 5</li>
+              <li class="flex-item item-6">Item 6</li>
+            </ul>
+
+        Looks like this:
+
+      +staticExample('The example without any flex properties applied')
+        ul.flexample--noflex
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        Flexbox is set on an element using the new `display: flex` property. As
+        with `display: block`, there is an inline version (`display: inline-flex`),
+        which works as expected; it can be used on an inline element sitting in a
+        block of text, for example. That is ignored here, but be aware it exists.
+
+        > Applying `display: flex` makes an element a **flex container**, and its
+        > children **flex items**. They are positioned on an axis (horizontal or
+        > vertical), either `row` or `column`, which by default is `row`. This
+        > is the **main axis**, upon which flex elements lay out automatically.
+        > Orthoganal to this is the **cross axis**. Thinking about it in these
+        > terms is important, rather than horizontal/vertical.
+
+            .flex-example {
+              display: flex;
+              // The following is the default, and is inferred:
+              // flex-direction: row;
+            }
+
+      +staticExample('display:flex applied to an element')
+        ul.flexample--justflex
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        Like default table cells, the flex items expand or contract automatically
+        with the content, for example:
+
+      +staticExample('Flex items with differently sized content')
+        ul.flexample--justflex
+          li(class="flexample__item") 1
+          each val in [2,3,4,5]
+            li(class="flexample__item") Item #{val}
+          li(class="flexample__item") Item 6 with longer piece of content here
+
+
+    +articleChapter(sections[2])
+      :markdown
+        By default, the items stay on the same line: if the total
+        length of the items is greater then the container length,
+        they will simply extend out of the container. For example:
+
+      +staticExample('Flex items expanding outside the container')
+        ul.flexample--nowrap
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val} with longer piece of content here
+
+      :markdown
+        This can be controlled by using the `flex-wrap` property, which, by
+        default, is set at `nowrap`. If it is set to `wrap`, the content
+        breaks to the next line:
+
+            .flex-example {
+              display: flex;
+              flex-wrap: wrap;
+            }
+
+      +staticExample('Wrapping flex items')
+        ul.flexample--wrap
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val} with longer piece of content here
+
+      :markdown
+        This is all well and good, but doesn't really do lot different
+        to, say, applying inline-block to make rows, or float.
+        There are a few other properties that need to be covered before
+        building this into something useful.
+
+
+    +articleChapter(sections[3])
+      :markdown
+        First of all, the way items are arranged *on the axis* can be amended
+        using the `justify-content` property. If `row`, the flex items justify
+        horizontally. If `column`, they justify vertically.
+
+      +staticExample('The axis justify-content acts upon.')
+        img(src="images/diagrams--justify-content.svg")
+
+      :markdown
+        1. `flex-start` (the default) packs toward the start along the axis.
+        2. `flex-end` packs toward the end along the axis.
+        3. `center` packs items to the centre along the axis.
+        4. `space-between` distributes evenly along the axis, with the first
+           and last items flush with the start and end respectively.
+        5. `space-around` distributes evenly along the axis, with equal spaces
+           around all elements.
+
+      +interactiveExample("Edit 'justify-content' to see changes:")
+        +interactiveInput().
+          .flexample--editable--justify {
+            display: flex;
+            justify-content: flex-start;
+            /* possible values: 'flex-start'  'flex-end', 'center', 'space-between' or 'space-around' */
+          }
+        +interactiveOutput()
+          ul.flexample--editable--justify
+            each val in [1,2,3,4,5,6]
+              li(class="flexample__item") Item #{val}
+
+      :markdown
+        The five properties, styled like so:
+
+            .flex-example {
+              display: flex;
+              justify-content: flex-start | flex-end | center | space-between | space-around;
+            }
+
+        Should render, respectively, like this:
+
+      +staticExample('justify-content: flex-start')
+        ul.flexample--justify-start
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('justify-content: flex-end')
+        ul.flexample--justify-end
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('justify-content: center')
+        ul.flexample--justify-centre
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('justify-content: space-between')
+        ul.flexample--justify-between
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('justify-content: space-around')
+        ul.flexample--justify-around
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+
+    +articleChapter(sections[4])
+      :markdown
+        Secondly, the way a *single* row/column of items is arranged *orthoganal
+        to the axis* can be modified using the `align-items` property.
+
+      +staticExample('The axis align-items acts upon.')
+        img(src="images/diagrams--align-items.svg")
+
+      :markdown
+        1. `flex-start` packs toward the start along the cross-axis.
+        2. `flex-end` packs toward the end along the cross-axis.
+        3. `center` packs items to the centre along the cross-axis.
+        4. `baseline` aligns the baselines of the items along the cross-axis.
+        5. `stretch` (the default) stretches the item  to fill the container.
+
+        > The default `stretch` alignment solves the common problem in CSS
+        > of creating equal height columns.
+
+      +interactiveExample("Edit 'align-items' to see changes:")
+        +interactiveInput().
+          .flexample--editable--align {
+            display: flex;
+            justify-content: flex-start;
+            align-items: stretch;
+            /* possible values: 'flex-start' 'flex-end', 'center', 'baseline' or 'stretch' */
+          }
+        +interactiveOutput()
+          ul.flexample--editable--align
+            each val in [1,2,3,4,5,6]
+              li(class="flexample__item") Item #{val}
+
+      :markdown
+        The five properties, styled like so:
+
+            .flex-example {
+              display: flex;
+              align-items: flex-start | flex-end | center | baseline | stretch;
+            }
+
+        Should render, respectively, like this:
+
+      +staticExample('align-items: flex-start')
+        ul.flexample--align-start
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('align-items: flex-end')
+        ul.flexample--align-end
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('align-items: center')
+        ul.flexample--align-centre
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        **Note**: For the `baseline` example, the font size has been changed
+        to better demonstrate the alignment. Applying `baseline` will often
+        look visually identical to `align-items: flex-start`. It is generally only
+        when applied to items with differing text sizes that it will exhibit
+        the following behaviour:
+
+      +staticExample('align-items: baseline')
+        ul.flexample--align-baseline
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('align-items: stretch')
+        ul.flexample--align-stretch
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+    +articleChapter(sections[5])
+      :markdown
+        A third property, `align-content` comes into play for items that wrap.
+        It justifies lines of content, rather than just a single row/column.
+        *It does **nothing** if there is only one row*.
+
+        It acts almost identically to `justify-content`, but across multiple rows.
+
+      +staticExample('The axis align-content acts upon.')
+        img(src="images/diagrams--align-content.svg")
+
+      :markdown
+        1. `flex-start` (the default) packs lines toward the start of the cross-axis.
+        2. `flex-end` packs lines toward the end of the cross-axis.
+        3. `center` packs lines to the centre of the cross-axis.
+        4. `space-between` distributes evenly along the cross-axis, with the first
+           and last lines flush with the start and end respectively.
+        5. `space-around` distributes evenly along the cross-axis, with equal
+           spaces around all lines.
+        6. `stretch` evenly stretches all items in all lines to fill the
+           available space.
+
+      +interactiveExample("Edit 'align-content' to see changes:")
+        +interactiveInput().
+          .flexample--editable--aligncontent {
+            display: flex;
+            flex-wrap: wrap;
+            align-content: stretch;
+            /* possible values: 'flex-start' 'flex-end', 'center', 'space-around', 'space-between' or 'stretch' */
+          }
+
+          .flexample--editable--aligncontent .flexample__item {
+            width: calc(100% / 3);
+          }
+        +interactiveOutput()
+          ul.flexample--editable--aligncontent
+            each val in [1,2,3,4,5,6]
+              li(class="flexample__item") Item #{val}
+
+      :markdown
+        The six properties, styled like so:
+
+            .flex-example {
+              display: flex;
+              align-content: flex-start | flex-end | center | space-around | space-between | stretch;
+              // Items **must** wrap for align-content
+              // to have any effect:
+              flex-wrap: wrap;
+            }
+
+            .flex-example-item {
+              // Force width to ensure wrapping
+              width: calc(100%/3);
+            }
+
+        Display like this:
+
+      +staticExample('align-content: flex-start')
+        ul.flexample--aligncontent-start
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('align-content: flex-end')
+        ul.flexample--aligncontent-end
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('align-content: center')
+        ul.flexample--aligncontent-center
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('align-content: space-between')
+        ul.flexample--aligncontent-between
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('align-content: space-around')
+        ul.flexample--aligncontent-around
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      +staticExample('align-content: stretch')
+        ul.flexample--aligncontent-stretch
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+    +articleChapter(sections[6])
+      :markdown
+        Flex items don't quite behave the same way as, say floated/inline-block
+        items do as regards controlling width (or height, but I'll focus on the
+        most common usecase - horizontal rows of content). Where possible, flex
+        items should be allowed to naturally expand/contract, but in many [most]
+        cases this will not be the preferred behaviour.
+
+        The initial temptation is to use `width` on flex items. **However** *this
+        won't always work*. If `flex-wrap` is not set to `wrap`, and the total
+        width of the items would be larger than the container width, flex will
+        override the width to fit the items into the available space.
+        Despite having a width of 33% set, the first example here
+        forces the content to resize and fit the available space:
+
+      +staticExample('Item width: 100% / 3, flex-wrap: nowrap')
+        ul.flexample--explicitw-nowrap
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        It is only when `flex-wrap:wrap` is set on the flex container that the
+        items behave as expected:
+
+      +staticExample('Item width: 100% / 3, flex-wrap: wrap')
+        ul.flexample--explicitw-wrap
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        Applying `width` to flex items is simple and explicit, but the flex spec
+        itself provides a set of properties for controlling how a flex item can
+        alter its dimensions to fill the available space:
+
+        * `flex-grow`: defines how much an item can grow to fill the available
+          space. A unitless value representing how the item is sized
+          relative to the other items in the container. Defaults to `0`.
+        * `flex-shrink`: defines how much an item can shrink within the available
+          space. A unitless value representing how the item is sized
+          relative to the other items in the container. Defaults to `1`.
+        * `flex-basis`: an explicit size, with any CSS unit allowed. It specifies
+          the base size for the item. Works like `width`, defaults to `auto`
+
+        These are combined into a shorthand property
+
+        * `flex: <flex-grow-value> <flex-shrink-value> <flex-basis-value>;`
+
+        `flex` defines how an item *responds* to other items. A set of sizing
+        constraints are defined that describe how an item *should* behave, and
+        flex takes over. It is declarative rather than imperative.
+
+    +articleChapter(sections[7])
+      :markdown
+        `flex-grow` defines how much an item can grow to fill the available space.
+        It's the first and most useful of the three properties. Using the shorthand
+        `flex` property with a single value is identical to applying `flex-grow`
+        explicity - *eg* `flex: 1 == flex: 1 0 auto == flex-grow: 1`.
+
+        The value is unitless, and represents how the item is
+        sized relative to other items. It defaults to `0`, which means it
+        resizes depending upon the size of the content - the same default
+        behaviour that table cells have.
+
+        So if only one item has the `flex-grow` set, that item will
+        fill the available space, whilst the other items will be sized according
+        to their content:
+
+      +staticExample('Flex grow: 0-1-0')
+        ul.flexample--flex-grow-010
+          each val in [1,2,3]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        With the properties set as *item 1: `flex-grow:1`*,
+        *item 2: `flex-grow:2`*, and *item 3: `flex-grow:1`*, item 2 will be
+        twice the size of each of the other two items:
+
+      +staticExample('Flex grow: 1-2-1')
+        ul.flexample--flex-grow-121
+          each val in [1,2,3]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        Set as *item 1: `flex-grow:2`*,
+        *item 2: `flex-grow:1`*, and *item 3: `flex-grow:1`*, item 1 will be
+        twice the size of each of the other two items:
+
+      +staticExample('Flex grow: 2-1-1')
+        ul.flexample--flex-grow-211
+          each val in [1,2,3]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        And set as *item 1: `flex-grow:1`*,
+        *item 2: `flex-grow:2`*, and *item 3: `flex-grow:3`*, item 2 will be
+        around twice the size of item 1, and item 3 will be around three times
+        the size of item 1:
+
+      +staticExample('Flex grow: 1-2-3')
+        ul.flexample--flex-grow-123
+          each val in [1,2,3]
+            li(class="flexample__item") Item #{val}
+
+      +interactiveExample("Edit the flex grow property of each item to see changes:")
+        +interactiveInput().
+          .editable-flexitem-1 {
+            flex-grow: 1;
+            /* identical to `flex: 1 0 auto`, or just `flex: 1` */
+          }
+          .editable-flexitem-2 {
+            flex-grow: 2;
+            /* identical to `flex: 2 0 auto`, or just `flex: 2` */
+          }
+          .editable-flexitem-3 {
+            flex-grow: 1;
+            /* identical to `flex: 1 0 auto`, or just `flex: 1` */
+          }
+        +interactiveOutput()
+          ul.flexample--editable--flexitems
+            each val in [1,2,3]
+              li(class="flexample__item editable-flexitem-#{val}") Item #{val}
+
+    +articleChapter(sections[8])
+      :markdown
+        `flex-shrink` defines how much an item can shrink within the available
+        space.
+
+    +articleChapter(sections[9])
+      :markdown
+        `flex-basis` defines the initial main size of the flex item.
+
+    +articleChapter(sections[10])
+      :markdown
+        The `align-items` property that can be applied to the flex container
+        has a corollary, unsurprisingly called `align-self`, which is applied
+        to individual items.
+
+    +articleChapter(sections[11])
+      :markdown
+        The flex spec allows items to be easily ordered and reordered. The syntax is
+        simple and obvious: the property `order` is applied to an item, and that
+        item is displayed, visually, at the point specified.
+
+        Items with the same value appear in source-code order, and the default
+        value is `0`. So if a only a single item in a group of flex items has its
+        order specified, it will move to the end:
+
+            .flex-container > .flex-item:nth-child(1) {
+              order: 1;
+            }
+
+      +staticExample('Item 1 has an order of 1 specified, all the rest have the default of 0.')
+        ul.flexample--order-single
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        This part of flexbox spec is possibly the easiest to understand. There
+        are no restrictions, items can be arbitrarily shunted around. The following
+        are laid out item 1...item 6 in the HTML:
+
+      +staticExample('All items shunted around using the order property')
+        ul.flexample--order-multi
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+      :markdown
+        All very simple, and very intuitive. The order property works extremely well
+        when combined with media queries, reflowing the content at different
+        screen sizes.
+
+      +interactiveExample("Edit the order properties to see changes:")
+        +interactiveInput().
+          .orderable-item-1 { order: 1; }
+          .orderable-item-2 { order: 2; }
+          .orderable-item-3 { order: 3; }
+          .orderable-item-4 { order: 4; }
+          .orderable-item-5 { order: 5; }
+          .orderable-item-6 { order: 6; }
+        +interactiveOutput()
+          ul.flexample--editable--orderable
+            each val in [1,2,3,4,5,6]
+              li(class="flexample__item orderable-item-#{val}") Item #{val}

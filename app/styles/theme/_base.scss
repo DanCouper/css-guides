@@ -1,0 +1,176 @@
+
+/* ==========================================================================
+   1. Overall Structure
+   ========================================================================== */
+*:focus {
+  outline: 0;
+}
+
+a img,
+a picture img {
+  outline: none;
+  border: none;
+}
+
+img {
+  width: 100%;
+}
+
+picture,
+picture source,
+picture img {
+  width: 100%;
+}
+
+/* ==========================================================================
+   2. Overall
+   ========================================================================== */
+
+/* 2.1 Global
+   ========================================================================== */
+
+
+body {
+  background-color: $base-bg-color;
+}
+
+a {
+  @include anchor($highlight-color, $base-text-color);
+}
+
+a.reset {
+  border: 0;
+}
+
+blockquote {
+  border-left: $indent-small solid $grey;
+  color: mix($charcoal, $darkgrey);
+  padding-left: $indent-large;
+}
+
+pre {
+  color: $base-bg-color;
+  padding: $indent-large;
+  @include extend-bg($bluegrey);
+}
+
+code {
+  background-color: $grey;
+  border-radius: .1em;
+  display: inline-block;
+  font-family: $base-code-font-family;
+  font-size: $small-font-size;
+  margin: 0 .25em;
+  padding: .1em .5em;
+}
+
+pre code {
+  background-color: transparent;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+
+a code {
+  cursor: inherit;
+}
+
+pre code {
+  padding: 0;
+}
+
+/* ==========================================================================
+   3. Forms
+   ========================================================================== */
+
+@mixin all-fields {
+  input,
+  select,
+  textarea {
+    @content;
+  }
+}
+
+@mixin text-fields {
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="text"],
+  input[type="url"],
+  textarea {
+    @content;
+  }
+}
+
+@include text-fields {
+  background-color: rgba($white, .1);
+  border: $border-standard;
+  padding: $indent / 2 $indent;
+  width: 100%;
+  &:focus {
+    background-color: rgba($white, .25);
+    border-color: $highlight-color;
+    color: $highlight-color;
+    transition: all .5s;
+  }
+}
+
+.input--title {
+  font-weight: $bold;
+}
+
+label {
+  @include smallcaps();
+  padding-left: $indent;
+}
+
+textarea {
+  /* Turn off scroll bars in IE unless needed */
+  overflow: auto;
+  /* Only allow vertical resizing: */
+  resize: vertical;
+  /* ensure it does not get smaller than input height: */
+  min-height: $indent-large * 4;
+}
+
+.textarea--content {
+  min-height: $indent-large * 10;
+}
+
+.button {
+  @include smallcaps();
+  border: none;
+  background-color: $base-text-color;
+  color: $base-bg-color;
+  padding: $indent / 2 $indent-large;
+  transition: all .5s;
+  &:active,
+  &:focus,
+  &:hover {
+    background-color: $highlight-color;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  label {
+    order: -1;
+    transition: all .5s;
+  }
+  @include text-fields {
+    &:focus + label {
+      color: $highlight-color;
+    }
+  }
+}
+
+.form-group--submit {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.form-group + .form-group {
+  margin-top: $indent;
+}

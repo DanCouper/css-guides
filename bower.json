@@ -1,0 +1,15 @@
+{
+  "name": "css-guides",
+  "version": "0.0.1",
+  "authors": [
+    "DanCouper <danielcouper@sutor-design.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

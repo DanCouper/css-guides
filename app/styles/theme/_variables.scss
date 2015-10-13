@@ -1,0 +1,89 @@
+// Description: Variables for the 2015 CEF Conference Website
+// Dependencies: None, but overrides CEFrame variables.
+// Summary:
+
+// ==========================================================================
+// Font import
+// ========================================================================== */
+
+@font-face {
+    font-family: 'Hasklig';
+    src: url('fonts/hasklig-medium-webfont.eot');
+    src: url('fonts/hasklig-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/hasklig-medium-webfont.woff2') format('woff2'),
+         url('fonts/hasklig-medium-webfont.woff') format('woff'),
+         url('fonts/hasklig-medium-webfont.ttf') format('truetype'),
+         url('fonts/hasklig-medium-webfont.svg#haskligmedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    //font-feature-settings: "liga" 1;
+    font-variant: common-ligatures discretionary-ligatures contextual;
+    text-rendering: optimizeLegibility; // Turn on ligsC
+}
+
+// ==========================================================================
+// Colours
+// ==========================================================================
+
+// Colours pulled directly from CEF branding.
+$black: rgba(17, 17, 17, 1);
+$white: rgba(255, 255, 255, 1);
+
+$charcoal: rgba(74,79,81, 1);
+
+$grey: rgba(189, 187, 189, 1);
+$darkgrey: mix($charcoal, $grey);
+$lightgrey: mix($grey, $white);
+
+$orange: rgba(242, 111, 42, 1);
+$blue: rgba(117, 158, 189, 1);
+$bluegrey: rgba(94, 119, 138, 1);
+
+// ==========================================================================
+// CEFrame Overrides
+// ==========================================================================
+
+$base-px-font-size: 16px;
+
+$base-font-size: 1rem;
+$base-line-height: 1.5;
+
+$base-measure: $base-font-size * $base-line-height;
+
+$base-serif-font-family: "Calluna", "Georgia", serif;
+$base-sans-font-family: "Calluna Sans", "Arial", sans-serif;
+$base-code-font-family: "Hasklig";
+
+$base-font-family: $base-serif-font-family;
+
+$indent: $base-measure / 2;
+$indent-small: $indent / 2;
+$indent-large: $base-measure;
+
+$base-text-color: $charcoal;
+$base-bg-color: $lightgrey;
+$base-ui-color: $charcoal;
+$highlight-color: $orange;
+
+$light: 200;
+$regular: 400;
+$bold: 700;
+
+$large-width: 61.875rem;
+$medium-width: 48rem;
+$small-width: 30rem;
+
+$base-width: $large-width;
+$base-breakpoint: $medium-width;
+
+$container-padding-x: $indent;
+
+$font-size-xl: 2.25rem;
+$font-size-l: 1.5rem;
+$font-size-m: 1.125rem;
+
+$border-standard: 1px solid $grey;
+$border-dotted: 1px dotted $grey;
+$border-faded: 1px solid rgba($grey, .5);
+
+$layout-debug: false;

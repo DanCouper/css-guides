@@ -1,0 +1,88 @@
+// Utility functions
+// -------------------------------------
+
+// Convert a [title] string to kebab-case
+-
+  function skewer(str) {
+    str.toLowerCase()
+       .replace(/\s/, '-')
+  }
+
+// -------------------------------------
+// Sections (chapters):
+// -------------------------------------
+// each article should have a contents. Mixin accepts array.
+mixin articleContents(titles)
+  nav.contents
+    ol.contents__list
+      each title in titles
+        li.contents__entry
+          a.contents__entry__link(href="##{title.toLowerCase().replace(/\s/, '-')}")= title
+
+
+// each article should have a lede...
+mixin articleLede()
+  section.lede
+    .lede__content
+      block
+
+// -------------------------------------
+// Sections (chapters):
+// -------------------------------------
+// each article has sections,
+// which have IDs for anchoring...
+mixin articleChapter(title)
+  section.chapter(id="#{title.toLowerCase().replace(/\s/, '-')}")
+    header.chapter__header
+      h1.chapter__title= title
+    .chapter__content
+      block
+
+// A chapter with a demo page mtching the title
+mixin articleLinkedChapter(title)
+  section.chapter(id="#{title.toLowerCase().replace(/\s/, '-')}")
+    header.chapter__header
+      h1.chapter__title: a(href="flexbox-examples/#{title.toLowerCase().replace(/\s/, '-')}.html")= title
+    .chapter__content
+      block
+
+// -------------------------------------
+// Subsections:
+// -------------------------------------
+// Which should have subsections:
+// eg an overview, static examples
+// and interactive examples...
+mixin subSection(title)
+  section(class="subsection subsection--#{title.toLowerCase().replace(/\s/, '-')}")
+    h1.subsection__title= title
+    block
+
+
+// Examples:
+// -------------------------------------
+// Zero-to-many per static section
+
+// Static examples
+mixin staticExample(figcaption)
+  figure.figure--static
+    .figure__content
+      block
+    figcaption.figure__caption--static= figcaption
+
+// Interactive examples, which need
+// to be built with two sub-element
+// mixins.
+mixin interactiveExample(instructions)
+  figure.figure--interactive
+    figcaption.figure__caption--interactive= instructions
+    .figure__content
+      block
+
+mixin interactiveInput()
+  pre.interactive-wrap
+    style.interactive-input(contenteditable="true")
+      block
+
+mixin interactiveOutput()
+  .interactive-output
+    block

@@ -1,0 +1,161 @@
+/**
+ * Description: Class Utilities
+ * Version: 0.8.0
+ * Last update: 2015/05/22
+ * Dependencies: none
+ *
+ * Summary:
+ *  A set of useful, declarative utility mixins and classes.
+ *  NOTE Scoped variables are tied to each section,
+ *  rather than declared at the top of this stylesheet.
+ *  TODO add to this as and when.
+ *
+ *  1. LAYOUT
+ *  2. DECORATION
+ *  3. TYPOGRAPHY
+ */
+
+/* ==========================================================================
+   1. LAYOUT
+   ========================================================================== */
+
+/* 1.1 CLEARFIX
+   ========================================================================== */
+/*
+ * Unfortunately still necessary.
+ */
+@mixin clearfix {
+  zoom: 1;
+  &:before {
+    display: block;
+    overflow: hidden;
+
+    height: 0;
+
+    content: '\0020';
+  }
+  &:after {
+    display: block;
+    clear: both;
+    overflow: hidden;
+
+    height: 0;
+
+    content: '\0020';
+  }
+}
+
+.clearfix {
+  @include clearfix;
+}
+
+/* GENERIC LAYOUT CLASSES
+   ========================================================================== */
+
+@mixin fullwidth() {
+  width: 100%;
+}
+
+.fullwidth {
+  @include fullwidth;
+}
+
+
+.align-left {
+  text-align: left;
+}
+
+.align-centre {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+/* ==========================================================================
+   2. DECORATION
+   ========================================================================== */
+
+/* 2.1 MIXINS
+   ========================================================================== */
+/*
+ * Just rounds an element.
+ * square -> circle
+ * rectangle -> rectangle with completely rounded ends
+ */
+@mixin rounded() {
+  border-radius: 9999px;
+}
+
+.rounded {
+  @include rounded();
+}
+
+@mixin rounded-corners($radius) {
+ border-radius: $radius;
+}
+
+@mixin underlined($color, $style, $width) {
+  border-bottom-color: $color;
+  border-bottom-style: $style;
+  border-bottom-width: $width;
+}
+
+@mixin outlined($color, $style, $width) {
+  border-color: $color;
+  border-style: $style;
+  border-width: $width;
+}
+
+
+/* ==========================================================================
+   3. TYPOGRAPHY
+   ========================================================================== */
+
+@mixin justified() {
+  text-align: justified;
+  text-justify: newspaper;
+  hyphens: auto;
+}
+
+.justified {
+  @include justified();
+}
+
+/* ==========================================================================
+   4. LAYOUT
+   ========================================================================== */
+/*
+ * NOTE the -moz prefix is for development: Firefox has not implemented
+ * unprefixed column syntax. In production, Autoprefixer will automatically
+ * add all other prefixes.
+ */
+
+[class^="columns-"] {
+  -moz-column-width: 300px;
+  column-width: 300px;
+}
+
+.columns-2 {
+  -moz-column-count: 2;
+  column-count: 2;
+}
+
+.columns-3 {
+  -moz-column-count: 3;
+  column-count: 3;
+}
+
+.columns-4 {
+  -moz-column-count: 4;
+  column-count: 4;
+}

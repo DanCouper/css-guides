@@ -1,0 +1,220 @@
+<!DOCTYPE html><html><head><title>CSS Examples</title><link rel="stylesheet" href="app.css"></head><body><header role="banner" class="container banner"><h1 class="site-title"><a href="./index.html" class="site-navigation__item__link--home">CSS Examples</a></h1><ul class="site-navigation"><li class="site-navigation__item"><a href="./columns.html">columns</a></li><li class="site-navigation__item"><a href="./flexbox-basics.html">flexbox basics</a></li><li class="site-navigation__item"><a href="./flexbox-examples.html">flexbox examples</a></li></ul></header><main role="main" class="container"><article class="article"><header class="article__header"><h1 class="article__title">Flexbox Deep Dive</h1><h2 class="article__subtitle">Native, flexible layouts without need for frameworks.</h2></header><section class="lede"><div class="lede__content"><p>Some intro text...</p></div></section><nav class="contents"><ol class="contents__list"><li class="contents__entry"><a href="#introduction" class="contents__entry__link">Introduction</a></li><li class="contents__entry"><a href="#complete-basics" class="contents__entry__link">Complete basics</a></li><li class="contents__entry"><a href="#wrapping-lines of content" class="contents__entry__link">Wrapping lines of content</a></li><li class="contents__entry"><a href="#justifying-lines of content" class="contents__entry__link">Justifying lines of content</a></li><li class="contents__entry"><a href="#aligning-a line of items" class="contents__entry__link">Aligning a line of items</a></li><li class="contents__entry"><a href="#aligning-multiple lines of items" class="contents__entry__link">Aligning multiple lines of items</a></li><li class="contents__entry"><a href="#controlling-the size of individual items" class="contents__entry__link">Controlling the size of individual items</a></li><li class="contents__entry"><a href="#flex:-the flex-grow property" class="contents__entry__link">Flex: the flex-grow property</a></li><li class="contents__entry"><a href="#flex:-the flex-shrink property" class="contents__entry__link">Flex: the flex-shrink property</a></li><li class="contents__entry"><a href="#flex:-the flex-basis property" class="contents__entry__link">Flex: the flex-basis property</a></li><li class="contents__entry"><a href="#aligning-individual items" class="contents__entry__link">Aligning individual items</a></li><li class="contents__entry"><a href="#ordering-individual items" class="contents__entry__link">Ordering individual items</a></li></ol></nav><section id="introduction" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Introduction</h1></header><div class="chapter__content"><p>Flexbox is a native CSS layout model optimised for user interfaces.</p>
+
+<p>CSS 2.1 <a href="http://www.w3.org/TR/css-flexbox-1/#intro">defined four layout modes</a>:</p>
+
+<ol><li><strong>Block layout</strong>, for structuring documents: <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;header&gt;</code>,
+<code>&lt;footer&gt;</code> are all examples of block-level elements. Without styling,
+they take up 100% of the width of the viewport, and stack in order of
+their position in the actual HTML.</li><li><strong>Inline layout</strong>, for structuring text. Several tags specify inline
+elements, including <code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>, <code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code>. Without
+styling, they are the size of their content. They sit in a row in
+order of their appearance in the HTML, wrapping when reaching the
+end of line.</li><li><strong>Table layout</strong>, for structured data displayed in a tabular format.</li><li><strong>Positioned layout</strong>, which allows for explicit positioning of
+elements. Applied via <code>position: absolute | fixed | relative</code>. Shifts
+the elements out of the normal document flow; visually, elements
+can be in a different order to how they appear in the HTML.</li></ol>
+
+<p>Current methods of CSS layout involve careful hacking of these modes.
+Common solutions include floats (with clearfix), <code>display: table</code> or
+<code>display: inline-block</code>, all in combination with layered wrapper
+elements.</p>
+
+<p><strong>Flex</strong>, the fifth layout mode, aims to remove the need for these hacks.
+Out of the box, flex allows (among other things):</p>
+
+<ul><li>Equal height columns.</li><li>Vertical centering.</li><li>Automatic wrapping of grid rows to the next line.</li><li>Infinite nested grids.</li><li>Elements that expand to fill the remaining space in a row.</li><li>Modification of the display order of elements via CSS.</li></ul>
+
+<p><strong>Note</strong>: <em>Flex solves the issue of UI component layout. For high-level
+structuring of apps/documents, the
+<a href="https://www.youtube.com/watch?v=G7EIAgfkhmg">CSS grid layouts module</a>
+provides a robust layout system. However, it is not yet implemented
+cross-browser, and the spec is in flux. As things stand, Flex works
+well for grid layouts.</em></p></div></section><section id="complete-basics" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Complete basics</h1></header><div class="chapter__content"><p>For these basic examples, the HTML is simply a list, and I&#39;ve reset
+all the styling, and coloured each box individually. Code like so:</p>
+
+<pre><code>&lt;ul class=&quot;flex-container&quot;&gt;
+  &lt;li class=&quot;flex-item item-1&quot;&gt;Item 1&lt;/li&gt;
+  &lt;li class=&quot;flex-item item-2&quot;&gt;Item 2&lt;/li&gt;
+  &lt;li class=&quot;flex-item item-3&quot;&gt;Item 3&lt;/li&gt;
+  &lt;li class=&quot;flex-item item-4&quot;&gt;Item 4&lt;/li&gt;
+  &lt;li class=&quot;flex-item item-5&quot;&gt;Item 5&lt;/li&gt;
+  &lt;li class=&quot;flex-item item-6&quot;&gt;Item 6&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+<p>Looks like this:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--noflex"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">The example without any flex properties applied</figcaption></figure><p>Flexbox is set on an element using the new <code>display: flex</code> property. As
+with <code>display: block</code>, there is an inline version (<code>display: inline-flex</code>),
+which works as expected; it can be used on an inline element sitting in a
+block of text, for example. That is ignored here, but be aware it exists.</p>
+
+<blockquote><p>Applying <code>display: flex</code> makes an element a <strong>flex container</strong>, and its
+children <strong>flex items</strong>. They are positioned on an axis (horizontal or
+vertical), either <code>row</code> or <code>column</code>, which by default is <code>row</code>. This
+is the <strong>main axis</strong>, upon which flex elements lay out automatically.
+Orthoganal to this is the <strong>cross axis</strong>. Thinking about it in these
+terms is important, rather than horizontal/vertical.</p></blockquote>
+
+<pre><code>.flex-example {
+  display: flex;
+  // The following is the default, and is inferred:
+  // flex-direction: row;
+}</code></pre><figure class="figure--static"><div class="figure__content"><ul class="flexample--justflex"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">display:flex applied to an element</figcaption></figure><p>Like default table cells, the flex items expand or contract automatically
+with the content, for example:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--justflex"><li class="flexample__item">1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6 with longer piece of content here</li></ul></div><figcaption class="figure__caption--static">Flex items with differently sized content</figcaption></figure></div></section><section id="wrapping-lines of content" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Wrapping lines of content</h1></header><div class="chapter__content"><p>By default, the items stay on the same line: if the total
+length of the items is greater then the container length,
+they will simply extend out of the container. For example:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--nowrap"><li class="flexample__item">Item 1 with longer piece of content here</li><li class="flexample__item">Item 2 with longer piece of content here</li><li class="flexample__item">Item 3 with longer piece of content here</li><li class="flexample__item">Item 4 with longer piece of content here</li><li class="flexample__item">Item 5 with longer piece of content here</li><li class="flexample__item">Item 6 with longer piece of content here</li></ul></div><figcaption class="figure__caption--static">Flex items expanding outside the container</figcaption></figure><p>This can be controlled by using the <code>flex-wrap</code> property, which, by
+default, is set at <code>nowrap</code>. If it is set to <code>wrap</code>, the content
+breaks to the next line:</p>
+
+<pre><code>.flex-example {
+  display: flex;
+  flex-wrap: wrap;
+}</code></pre><figure class="figure--static"><div class="figure__content"><ul class="flexample--wrap"><li class="flexample__item">Item 1 with longer piece of content here</li><li class="flexample__item">Item 2 with longer piece of content here</li><li class="flexample__item">Item 3 with longer piece of content here</li><li class="flexample__item">Item 4 with longer piece of content here</li><li class="flexample__item">Item 5 with longer piece of content here</li><li class="flexample__item">Item 6 with longer piece of content here</li></ul></div><figcaption class="figure__caption--static">Wrapping flex items</figcaption></figure><p>This is all well and good, but doesn&#39;t really do lot different
+to, say, applying inline-block to make rows, or float.
+There are a few other properties that need to be covered before
+building this into something useful.</p></div></section><section id="justifying-lines of content" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Justifying lines of content</h1></header><div class="chapter__content"><p>First of all, the way items are arranged <em>on the axis</em> can be amended
+using the <code>justify-content</code> property. If <code>row</code>, the flex items justify
+horizontally. If <code>column</code>, they justify vertically.</p><figure class="figure--static"><div class="figure__content"><img src="images/diagrams--justify-content.svg"></div><figcaption class="figure__caption--static">The axis justify-content acts upon.</figcaption></figure><ol><li><code>flex-start</code> (the default) packs toward the start along the axis.</li><li><code>flex-end</code> packs toward the end along the axis.</li><li><code>center</code> packs items to the centre along the axis.</li><li><code>space-between</code> distributes evenly along the axis, with the first
+and last items flush with the start and end respectively.</li><li><code>space-around</code> distributes evenly along the axis, with equal spaces
+around all elements.</li></ol><figure class="figure--interactive"><figcaption class="figure__caption--interactive">Edit 'justify-content' to see changes:</figcaption><div class="figure__content"><pre class="interactive-wrap"><style contenteditable="true" class="interactive-input">.flexample--editable--justify {
+  display: flex;
+  justify-content: flex-start;
+  /* possible values: 'flex-start'  'flex-end', 'center', 'space-between' or 'space-around' */
+}</style></pre><div class="interactive-output"><ul class="flexample--editable--justify"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div></div></figure><p>The five properties, styled like so:</p>
+
+<pre><code>.flex-example {
+  display: flex;
+  justify-content: flex-start | flex-end | center | space-between | space-around;
+}</code></pre>
+
+<p>Should render, respectively, like this:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--justify-start"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">justify-content: flex-start</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--justify-end"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">justify-content: flex-end</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--justify-centre"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">justify-content: center</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--justify-between"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">justify-content: space-between</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--justify-around"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">justify-content: space-around</figcaption></figure></div></section><section id="aligning-a line of items" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Aligning a line of items</h1></header><div class="chapter__content"><p>Secondly, the way a <em>single</em> row/column of items is arranged <em>orthoganal
+to the axis</em> can be modified using the <code>align-items</code> property.</p><figure class="figure--static"><div class="figure__content"><img src="images/diagrams--align-items.svg"></div><figcaption class="figure__caption--static">The axis align-items acts upon.</figcaption></figure><ol><li><code>flex-start</code> packs toward the start along the cross-axis.</li><li><code>flex-end</code> packs toward the end along the cross-axis.</li><li><code>center</code> packs items to the centre along the cross-axis.</li><li><code>baseline</code> aligns the baselines of the items along the cross-axis.</li><li><code>stretch</code> (the default) stretches the item  to fill the container.</li></ol>
+
+<blockquote><p>The default <code>stretch</code> alignment solves the common problem in CSS
+of creating equal height columns.</p></blockquote><figure class="figure--interactive"><figcaption class="figure__caption--interactive">Edit 'align-items' to see changes:</figcaption><div class="figure__content"><pre class="interactive-wrap"><style contenteditable="true" class="interactive-input">.flexample--editable--align {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  /* possible values: 'flex-start' 'flex-end', 'center', 'baseline' or 'stretch' */
+}</style></pre><div class="interactive-output"><ul class="flexample--editable--align"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div></div></figure><p>The five properties, styled like so:</p>
+
+<pre><code>.flex-example {
+  display: flex;
+  align-items: flex-start | flex-end | center | baseline | stretch;
+}</code></pre>
+
+<p>Should render, respectively, like this:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--align-start"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-items: flex-start</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--align-end"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-items: flex-end</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--align-centre"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-items: center</figcaption></figure><p><strong>Note</strong>: For the <code>baseline</code> example, the font size has been changed
+to better demonstrate the alignment. Applying <code>baseline</code> will often
+look visually identical to <code>align-items: flex-start</code>. It is generally only
+when applied to items with differing text sizes that it will exhibit
+the following behaviour:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--align-baseline"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-items: baseline</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--align-stretch"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-items: stretch</figcaption></figure></div></section><section id="aligning-multiple lines of items" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Aligning multiple lines of items</h1></header><div class="chapter__content"><p>A third property, <code>align-content</code> comes into play for items that wrap.
+It justifies lines of content, rather than just a single row/column.
+<em>It does <strong>nothing</strong> if there is only one row</em>.</p>
+
+<p>It acts almost identically to <code>justify-content</code>, but across multiple rows.</p><figure class="figure--static"><div class="figure__content"><img src="images/diagrams--align-content.svg"></div><figcaption class="figure__caption--static">The axis align-content acts upon.</figcaption></figure><ol><li><code>flex-start</code> (the default) packs lines toward the start of the cross-axis.</li><li><code>flex-end</code> packs lines toward the end of the cross-axis.</li><li><code>center</code> packs lines to the centre of the cross-axis.</li><li><code>space-between</code> distributes evenly along the cross-axis, with the first
+and last lines flush with the start and end respectively.</li><li><code>space-around</code> distributes evenly along the cross-axis, with equal
+spaces around all lines.</li><li><code>stretch</code> evenly stretches all items in all lines to fill the
+available space.</li></ol><figure class="figure--interactive"><figcaption class="figure__caption--interactive">Edit 'align-content' to see changes:</figcaption><div class="figure__content"><pre class="interactive-wrap"><style contenteditable="true" class="interactive-input">.flexample--editable--aligncontent {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  /* possible values: 'flex-start' 'flex-end', 'center', 'space-around', 'space-between' or 'stretch' */
+}
+
+.flexample--editable--aligncontent .flexample__item {
+  width: calc(100% / 3);
+}</style></pre><div class="interactive-output"><ul class="flexample--editable--aligncontent"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div></div></figure><p>The six properties, styled like so:</p>
+
+<pre><code>.flex-example {
+  display: flex;
+  align-content: flex-start | flex-end | center | space-around | space-between | stretch;
+  // Items **must** wrap for align-content
+  // to have any effect:
+  flex-wrap: wrap;
+}
+
+.flex-example-item {
+  // Force width to ensure wrapping
+  width: calc(100%/3);
+}</code></pre>
+
+<p>Display like this:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--aligncontent-start"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-content: flex-start</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--aligncontent-end"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-content: flex-end</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--aligncontent-center"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-content: center</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--aligncontent-between"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-content: space-between</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--aligncontent-around"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-content: space-around</figcaption></figure><figure class="figure--static"><div class="figure__content"><ul class="flexample--aligncontent-stretch"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">align-content: stretch</figcaption></figure></div></section><section id="controlling-the size of individual items" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Controlling the size of individual items</h1></header><div class="chapter__content"><p>Flex items don&#39;t quite behave the same way as, say floated/inline-block
+items do as regards controlling width (or height, but I&#39;ll focus on the
+most common usecase - horizontal rows of content). Where possible, flex
+items should be allowed to naturally expand/contract, but in many [most]
+cases this will not be the preferred behaviour.</p>
+
+<p>The initial temptation is to use <code>width</code> on flex items. <strong>However</strong> <em>this
+won&#39;t always work</em>. If <code>flex-wrap</code> is not set to <code>wrap</code>, and the total
+width of the items would be larger than the container width, flex will
+override the width to fit the items into the available space.
+Despite having a width of 33% set, the first example here
+forces the content to resize and fit the available space:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--explicitw-nowrap"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">Item width: 100% / 3, flex-wrap: nowrap</figcaption></figure><p>It is only when <code>flex-wrap:wrap</code> is set on the flex container that the
+items behave as expected:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--explicitw-wrap"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">Item width: 100% / 3, flex-wrap: wrap</figcaption></figure><p>Applying <code>width</code> to flex items is simple and explicit, but the flex spec
+itself provides a set of properties for controlling how a flex item can
+alter its dimensions to fill the available space:</p>
+
+<ul><li><code>flex-grow</code>: defines how much an item can grow to fill the available
+space. A unitless value representing how the item is sized
+relative to the other items in the container. Defaults to <code>0</code>.</li><li><code>flex-shrink</code>: defines how much an item can shrink within the available
+space. A unitless value representing how the item is sized
+relative to the other items in the container. Defaults to <code>1</code>.</li><li><code>flex-basis</code>: an explicit size, with any CSS unit allowed. It specifies
+the base size for the item. Works like <code>width</code>, defaults to <code>auto</code></li></ul>
+
+<p>These are combined into a shorthand property</p>
+
+<ul><li><code>flex: &lt;flex-grow-value&gt; &lt;flex-shrink-value&gt; &lt;flex-basis-value&gt;;</code></li></ul>
+
+<p><code>flex</code> defines how an item <em>responds</em> to other items. A set of sizing
+constraints are defined that describe how an item <em>should</em> behave, and
+flex takes over. It is declarative rather than imperative.</p></div></section><section id="flex:-the flex-grow property" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Flex: the flex-grow property</h1></header><div class="chapter__content"><p><code>flex-grow</code> defines how much an item can grow to fill the available space.
+It&#39;s the first and most useful of the three properties. Using the shorthand
+<code>flex</code> property with a single value is identical to applying <code>flex-grow</code>
+explicity - <em>eg</em> <code>flex: 1 == flex: 1 0 auto == flex-grow: 1</code>.</p>
+
+<p>The value is unitless, and represents how the item is
+sized relative to other items. It defaults to <code>0</code>, which means it
+resizes depending upon the size of the content - the same default
+behaviour that table cells have.</p>
+
+<p>So if only one item has the <code>flex-grow</code> set, that item will
+fill the available space, whilst the other items will be sized according
+to their content:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--flex-grow-010"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li></ul></div><figcaption class="figure__caption--static">Flex grow: 0-1-0</figcaption></figure><p>With the properties set as <em>item 1: <code>flex-grow:1</code></em>,
+<em>item 2: <code>flex-grow:2</code></em>, and <em>item 3: <code>flex-grow:1</code></em>, item 2 will be
+twice the size of each of the other two items:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--flex-grow-121"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li></ul></div><figcaption class="figure__caption--static">Flex grow: 1-2-1</figcaption></figure><p>Set as <em>item 1: <code>flex-grow:2</code></em>,
+<em>item 2: <code>flex-grow:1</code></em>, and <em>item 3: <code>flex-grow:1</code></em>, item 1 will be
+twice the size of each of the other two items:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--flex-grow-211"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li></ul></div><figcaption class="figure__caption--static">Flex grow: 2-1-1</figcaption></figure><p>And set as <em>item 1: <code>flex-grow:1</code></em>,
+<em>item 2: <code>flex-grow:2</code></em>, and <em>item 3: <code>flex-grow:3</code></em>, item 2 will be
+around twice the size of item 1, and item 3 will be around three times
+the size of item 1:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--flex-grow-123"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li></ul></div><figcaption class="figure__caption--static">Flex grow: 1-2-3</figcaption></figure><figure class="figure--interactive"><figcaption class="figure__caption--interactive">Edit the flex grow property of each item to see changes:</figcaption><div class="figure__content"><pre class="interactive-wrap"><style contenteditable="true" class="interactive-input">.editable-flexitem-1 {
+  flex-grow: 1;
+  /* identical to `flex: 1 0 auto`, or just `flex: 1` */
+}
+.editable-flexitem-2 {
+  flex-grow: 2;
+  /* identical to `flex: 2 0 auto`, or just `flex: 2` */
+}
+.editable-flexitem-3 {
+  flex-grow: 1;
+  /* identical to `flex: 1 0 auto`, or just `flex: 1` */
+}</style></pre><div class="interactive-output"><ul class="flexample--editable--flexitems"><li class="flexample__item editable-flexitem-1">Item 1</li><li class="flexample__item editable-flexitem-2">Item 2</li><li class="flexample__item editable-flexitem-3">Item 3</li></ul></div></div></figure></div></section><section id="flex:-the flex-shrink property" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Flex: the flex-shrink property</h1></header><div class="chapter__content"><p><code>flex-shrink</code> defines how much an item can shrink within the available
+space.</p></div></section><section id="flex:-the flex-basis property" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Flex: the flex-basis property</h1></header><div class="chapter__content"><p><code>flex-basis</code> defines the initial main size of the flex item.</p></div></section><section id="aligning-individual items" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Aligning individual items</h1></header><div class="chapter__content"><p>The <code>align-items</code> property that can be applied to the flex container
+has a corollary, unsurprisingly called <code>align-self</code>, which is applied
+to individual items.</p></div></section><section id="ordering-individual items" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Ordering individual items</h1></header><div class="chapter__content"><p>The flex spec allows items to be easily ordered and reordered. The syntax is
+simple and obvious: the property <code>order</code> is applied to an item, and that
+item is displayed, visually, at the point specified.</p>
+
+<p>Items with the same value appear in source-code order, and the default
+value is <code>0</code>. So if a only a single item in a group of flex items has its
+order specified, it will move to the end:</p>
+
+<pre><code>.flex-container &gt; .flex-item:nth-child(1) {
+  order: 1;
+}</code></pre><figure class="figure--static"><div class="figure__content"><ul class="flexample--order-single"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">Item 1 has an order of 1 specified, all the rest have the default of 0.</figcaption></figure><p>This part of flexbox spec is possibly the easiest to understand. There
+are no restrictions, items can be arbitrarily shunted around. The following
+are laid out item 1...item 6 in the HTML:</p><figure class="figure--static"><div class="figure__content"><ul class="flexample--order-multi"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div><figcaption class="figure__caption--static">All items shunted around using the order property</figcaption></figure><p>All very simple, and very intuitive. The order property works extremely well
+when combined with media queries, reflowing the content at different
+screen sizes.</p><figure class="figure--interactive"><figcaption class="figure__caption--interactive">Edit the order properties to see changes:</figcaption><div class="figure__content"><pre class="interactive-wrap"><style contenteditable="true" class="interactive-input">.orderable-item-1 { order: 1; }
+.orderable-item-2 { order: 2; }
+.orderable-item-3 { order: 3; }
+.orderable-item-4 { order: 4; }
+.orderable-item-5 { order: 5; }
+.orderable-item-6 { order: 6; }</style></pre><div class="interactive-output"><ul class="flexample--editable--orderable"><li class="flexample__item orderable-item-1">Item 1</li><li class="flexample__item orderable-item-2">Item 2</li><li class="flexample__item orderable-item-3">Item 3</li><li class="flexample__item orderable-item-4">Item 4</li><li class="flexample__item orderable-item-5">Item 5</li><li class="flexample__item orderable-item-6">Item 6</li></ul></div></div></figure></div></section></article></main><footer class="site-footer"><div class="container"><p>This is the footer</p></div></footer><script src="app.js"></script></body></html>

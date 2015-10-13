@@ -1,0 +1,67 @@
+// Description: Defaults for the CEFrame framework.
+// Version: 0.8.0
+// Last update: 2015/05/22
+// Dependencies: n/a
+//
+// Summary:
+//  Default variables. Redefine these in your variables file,
+//  which should be imported prior to ceframe to allow overriding
+//  of defaults, both here and in individual modules.
+//  0. BASE
+//  1. RESPONSIVENESS
+//  2. DEBUGGING
+
+
+// ==========================================================================
+// 0. BASE
+// ==========================================================================
+
+// Important base element rules.
+// These are set on the <html> element.
+$base-px-font-size: 16px !default;
+
+$base-font-size: 1rem !default;
+$base-line-height: 1.5 !default;
+
+$base-measure: $base-font-size * $base-line-height !default;
+
+$base-font-family: "Helvetica", "Arial", "Nimbus Sans", "Swiss 721", "MS Sans Serif", sans-serif !default;
+
+$indent: $base-measure / 2 !default;
+$indent-small: $indent / 2;
+$indent-large: $indent * 2;
+
+
+// Basic colours.
+
+// Likely to be the main [contrast] colour of the site alongside b&w:
+$brand-color: #111111 !default;
+
+$base-text-color: #111111 !default;
+$base-bg-color: #ffffff !default;
+// For basic borders etc:
+$base-ui-color: #111111 !default;
+// The main contrast colour:
+$base-highlight-color: #111111 !default;
+
+// ==========================================================================
+// 1. RESPONSIVENESS
+// ==========================================================================
+// A naïve set of start points for media queries.
+// Prefer setting specific queries based on need, but this
+// simplifies some tasks.
+$large-width: 990px !default;
+$medium-width: 768px !default;
+$small-width: 480px !default;
+
+
+// The basic max-width of a container.
+$base-width: $large-width !default;
+
+// The point at which columns collapse.
+$base-breakpoint: $medium-width !default;
+
+// ==========================================================================
+// 2. DEBUGGING
+// ==========================================================================
+$layout-debug: false !default;

@@ -1,0 +1,104 @@
+@mixin smallcaps($letter-spacing: .1em) {
+  font-variant: small-caps;
+  letter-spacing: $letter-spacing;
+  text-transform: lowercase;
+}
+
+@mixin tiny-screen {
+  @media screen and (max-width: 350px) {
+    @content;
+  }
+}
+
+@mixin small-screen {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin extend-bg($bgcolour) {
+  background-color: $bgcolour;
+  position: relative;
+  &::before,
+  &::after {
+    background-color: $bgcolour;
+    content: "";
+    height: 100%;
+    left: -100%;
+    position: absolute;
+    top: 0;
+    width: 200%;
+    z-index: -1;
+  }
+  &::after {
+    left: 100%;
+  }
+}
+
+@mixin anchor($colour, $activecolour: $base-text-color) {
+  border-bottom: 1px solid $colour;
+  color: $colour;
+  transition: all .5s ease-in;
+  &:hover,
+  &:active,
+  &:focus {
+    border-bottom-color: transparent;
+    color: $activecolour;
+    transition: all .5s ease-in;
+  }
+}
+
+/* Link underlines that break at descenders. Taken from
+   https://github.com/elixir-lang/ex_doc/blob/master/assets/less/mixins.less
+   ========================================================================== */
+
+$selection-color: mix($lightgrey, $bluegrey) !default;
+
+@mixin textShadowToCropUnderline($color) {
+  text-shadow:
+     .03em 0 $color,
+    -.03em 0 $color,
+     0 .03em $color,
+    0 -.03em $color,
+     .06em 0 $color,
+    -.06em 0 $color,
+     .09em 0 $color,
+    -.09em 0 $color,
+     .12em 0 $color,
+    -.12em 0 $color,
+     .15em 0 $color,
+    -.15em 0 $color;
+}
+
+@mixin linkUnderlines($background-color, $color) {
+  color: $color;
+  text-decoration: none;
+  @include textShadowToCropUnderline($background-color);
+  background-image:
+    linear-gradient($background-color, $background-color),
+    linear-gradient($background-color, $background-color),
+    linear-gradient($color, $color);
+  background-size: .05em 1px, .05em 1px, 1px 1px;
+  background-repeat: no-repeat, no-repeat, repeat-x;
+  background-position: 0% 90%, 100% 90%, 0% 90%;
+
+  &:selection {
+    @include textShadowToCropUnderline($selection-color);
+    background: $selection-color;
+  }
+  &:-moz-selection {
+    @include textShadowToCropUnderline($selection-color);
+    background: $selection-color;
+  }
+  &::before,
+  &::after,
+  *,
+  *::before,
+  *::after {
+    text-shadow: none;
+  }
+
+  &:visited {
+    color: $color;
+  }
+}

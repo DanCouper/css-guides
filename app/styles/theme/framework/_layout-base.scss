@@ -1,0 +1,56 @@
+/**
+ * Description: Base layout and defaults
+ * Version: 0.8.0
+ * Last update: 2015/05/22
+ * Dependencies: _global-defaults.scss
+ * Summary:
+ *   Just the rules for a generic container class.
+ *
+ */
+
+// i. SCOPED VARIABLES
+$container-padding-x: none !default;
+$container-padding-y: none !default;
+
+/* ==========================================================================
+   1. CONTAINER CLASS
+   ========================================================================== */
+/**
+ * Generic container.
+ * Several catch-all rules:
+ * - element will always be given display:block
+ * - floated content will be cleared.
+ * - absolutely positioned content will be relative to it.
+ *
+ * There are two ways this can be used:
+ * 1. It can be applied to the overall page as a catch-all.
+ *  %body
+ *    .container
+ *      // all the content here
+ *
+ * 2. It can be applied selectively to element >= 2 levels below the body tag
+ *  %body
+ *    %header
+ *      .container
+ *        // header content
+ *    .main
+ *      .container
+ *        // main content
+ *
+ * The advantage of the second method is that full-width backgrounds/etc.
+ * can be applied to each first-level element,
+ * with the content contained within.
+ */
+
+.container {
+  // position: relative;
+
+  // display: block;
+
+  max-width: $base-width;
+  margin: 0 auto;
+
+  padding: $container-padding-y $container-padding-x;
+
+  // @include clearfix;
+}

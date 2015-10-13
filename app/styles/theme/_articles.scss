@@ -1,0 +1,180 @@
+/**
+ * Description: Articles & Sections
+ * Summary:
+ *  Generic articles/sections block
+ *
+ * modifiers:
+ *  Sections are described using `.section--sectionType`
+ *  They are selected en masse using `[class^=section--]`
+ */
+
+/* Article-specific variables
+   ========================================================================== */
+//$chapter-seperator: "●";
+$chapter-seperator: "§";
+
+
+/* Overall article stylings
+   ========================================================================== */
+
+// `<ul>`s should display basically like default
+// within articles.
+
+.article ol li + li,
+.article ul li + li {
+  padding-top: $indent-small;
+}
+
+.article ul {
+  padding-left: 30px;
+  list-style-type: disc;
+}
+
+
+
+.article__header {
+  border-bottom: $border-dotted;
+}
+
+.article__title {
+  font-size: $font-size-xl;
+  font-weight: $bold;
+  line-height: 1.1;
+}
+
+.article__subtitle {
+  font-size: $font-size-m;
+  font-style: italic;
+}
+
+/* Section stylings
+   ========================================================================== */
+
+.contents,
+.lede {
+  padding: $indent-large 0;
+}
+
+.lede {
+  border-bottom: $border-dotted;
+  font-size: $font-size-m;
+  font-weight: 700;
+}
+
+//[class^="section--"] + [class^="section--"]::before {
+/* Space out the chapters: */
+.chapter::before {
+  content: $chapter-seperator;
+  display: block;
+  padding: $indent-large * 2 0;
+  text-align: center;
+}
+
+.chapter__header {
+  margin-bottom: $indent-large * 2;
+  text-align: center;
+}
+
+.chapter__title {
+  @extend .smallcaps;
+  font-size: $font-size-l;
+}
+
+.chapter__content > * + * {
+  margin-top: $indent-large;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+
+[class^="figure--"] {
+  font-family: $base-sans-font-family;
+  margin: $indent-large $indent;
+  padding: $indent;
+}
+
+.figure__content {
+  background-color: $white;
+  padding: $indent-small;
+  ul, ol {
+    list-style-type: none;
+    padding-left: 0;
+  }
+}
+
+/* Static figures
+   ========================================================================== */
+.figure--static {
+  border: $border-standard;
+  position: relative;
+  .figure__content {
+    margin-bottom: $indent;
+  }
+}
+
+.figure__caption--static {
+  background-color: $base-bg-color;
+  position: absolute;
+  right: $indent;
+  top: calc(100% - $indent);
+}
+
+
+/* Interactive CSS Examples
+   ========================================================================== */
+/**
+ * Editable style: inline <style> blocks with this class are displayed and
+ * will affect any matching HTML live.
+ *
+ * The editable CSS (the addition to static figures)
+ * should look something like this:
+ *
+ *    <pre class="interactive-wrap">
+ *      <style class="interactive-input" contenteditable>
+ *        .editable-flex-example--justify {
+ *          display: flex;
+ *          justify-content: flex-start;
+ *        }
+ *      </style>
+ *    </pre>
+ *
+ * The <pre> tag is to ensure the <style> displays as expected.
+ * The ::before will not be editable.
+ **/
+
+.figure--interactive,
+.figure--interactive pre {
+  @include extend-bg($white);
+  color: $base-text-color;
+}
+
+.figure--interactive {
+  .figure__content {
+    margin-bottom: 0;
+  }
+}
+
+.figure__caption--interactive {
+  animation: titlepulse 2s linear infinite;
+  font-size: .75em;
+  margin-bottom: $indent;
+}
+
+@keyframes titlepulse {
+  0%   { opacity: .5 }
+  50%  { opacity: 1 }
+  100% { opacity: .5 }
+}
+
+.interactive-input {
+  display: block;
+  font-family: $base-code-font-family;
+  white-space: pre-wrap;
+}
+
+.interactive-output {
+  border: $border-faded;
+  padding: $indent;
+}
+

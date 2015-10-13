@@ -1,0 +1,80 @@
+/**
+ * Description: Base type styling, extends the reset.
+ * Version: 0.8.0
+ * Last update: 2015/05/22
+ * Dependencies: _global-defaults.scss
+ * Summary:
+ *  Covers text and header stylings; by default, turned off.
+ *  Actioning this gives a vertical rhythm to the project.
+ *  TODO Work on this. Rems, for example?
+ *
+ *  1. CORE RULES
+ *  2. HEADERS
+ *
+ */
+
+// ==========================================================================
+// 0. SCOPED VARIABLES
+// ==========================================================================
+
+// The amount of space inserted above and below the text, useful for padding/margin etc.
+$base-offset: ($base-measure - $base-font-size) / 2 !default;
+
+// Header sizes, taken directly from the BBC Gel framework.
+// The numbers after each one are the relative line heights:
+$h1-size: 2.25em !default; // .667
+$h2-size: 2em !default; // .75
+$h3-size: 1.75em !default; // .857
+$h4-size: 1.5em !default; // 1
+$h5-size: 1.25em !default; // 1.2
+$h6-size: 1em !default; // 1.5
+
+$base-header-weight: inherit !default;
+
+// Small Text Rules:
+$small-font-size: 0.875em !default;
+$tiny-font-size: 0.75em !default;
+
+// Inline/Other Text Element Rules:
+$anchor-decoration: none !default;
+
+/* ==========================================================================
+   1. CORE RULES
+   ========================================================================== */
+
+html {
+  color: $base-text-color;
+  font: $base-px-font-size/#{$base-line-height} $base-font-family;
+}
+
+body {
+  font-size: $base-font-size;
+}
+
+/* ==========================================================================
+   2. HEADERS
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  /* Enable ligatures and kerning: */
+  text-rendering: optimizeLegibility;
+  font-weight: $base-header-weight;
+}
+
+small,
+.small {
+  font-size: $small-font-size;
+}
+
+.tiny {
+  font-size: $tiny-font-size;
+}
+
+a {
+  text-decoration: $anchor-decoration;
+  /*
+   * useful discussion from years ago:
+   * http://meyerweb.com/eric/thoughts/20.8.06/04/ordering-the-link-states/
+   */
+}

@@ -1,0 +1,78 @@
+/**
+ * Description: Site banner
+ * Version: 1.0.0
+ * Last update: YYYY/MM/DD
+ * Author: Daniel Couper <danielcouper@sutor-design.com>
+ *
+ * Summary:
+ *  Contains branding and navigation
+ */
+
+$banner-height: 5 * $indent-large;
+
+.banner {
+  /* Layout */
+  display: flex;
+  height: $banner-height;
+  margin-top: $indent-large;
+  margin-bottom: $indent-large;
+
+  /* Typography */
+  font-family: $base-sans-font-family;
+  font-variant: small-caps;
+  text-transform: lowercase;
+}
+
+/**
+ * Description: Site navigation
+ * Version: 1.0.0
+ * Last update: YYYY/MM/DD
+ * Author: Daniel Couper <danielcouper@sutor-design.com>
+ *
+ * Summary:
+ *  Collection of top-level internal links. NOTE that the links in the footer
+ *  that appear when logged are simply extentions of the nav links.
+ */
+.site-navigation {
+  /* Layout */
+  // align-items: center;
+  display: flex;
+  flex: 1;
+  font-weight: 700;
+  justify-content: flex-end;
+}
+
+.site-navigation__item {
+  padding-right: $indent-large;
+  &:last-child {
+    padding-right: none;
+  }
+}
+
+.site-navigation__item__link {
+  border-bottom-color: $base-text-color;
+  color: $base-text-color;
+  &:hover,
+  &:active,
+  &:focus {
+    color: $highlight-color;
+  }
+}
+
+.site-navigation__item__link--home {
+  border-bottom: none;
+  color: $base-text-color;
+  &:hover,
+  &:active,
+  &:focus {
+    color: $base-text-color;
+  }
+}
+
+
+.site-footer {
+  @extend .banner;
+  background-color: $black;
+  height: $banner-height;
+  margin-bottom: 0;
+}

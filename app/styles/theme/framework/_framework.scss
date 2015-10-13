@@ -1,0 +1,42 @@
+/**
+ * Description: Core Framework manifest
+ * Version: 0.8.0
+ * Last update: 2015/05/22
+ * Dependencies: n/a
+ *
+ * Summary:
+ *  This file is the main mainfest file.
+ *  It should be @imported, either directly into the
+ *  main project .scss file, or, for the asset pipeling,
+ *  into an intermediate .scss manifest file,
+ *  then into application.css.scss
+ *
+ */
+
+/* ==========================================================================
+   0. GENERIC CORE BASE
+   ========================================================================== */
+
+@import "global-defaults";
+@import "global-utilities";
+
+/* ==========================================================================
+   1. BASE RULES
+   ========================================================================== */
+
+@import "base-resets";
+@import "base-media";
+@import "base-tables";
+@import "base-typography";
+
+/* ==========================================================================
+   2. LAYOUT RULES
+   ========================================================================== */
+
+@import "layout-base";
+
+/* ==========================================================================
+   3. DEBUGGING
+   ========================================================================== */
+
+@import "debug.scss";

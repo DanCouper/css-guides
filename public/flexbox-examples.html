@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head><title>CSS Examples</title><link rel="stylesheet" href="app.css"></head><body><header role="banner" class="container banner"><h1 class="site-title"><a href="./index.html" class="site-navigation__item__link--home">CSS Examples</a></h1><ul class="site-navigation"><li class="site-navigation__item"><a href="./columns.html">columns</a></li><li class="site-navigation__item"><a href="./flexbox-basics.html">flexbox basics</a></li><li class="site-navigation__item"><a href="./flexbox-examples.html">flexbox examples</a></li></ul></header><main role="main" class="container"><article class="article"><header class="article__header"><h1 class="article__title">Flexbox Examples</h1><h2 class="article__subtitle">Native, flexible layouts without need for frameworks.</h2></header></article><section class="lede"><div class="lede__content"><p><strong>Use for:</strong> Layout as a lightweight and simpler replacement for a
+full grid structure. Use to create grids (<em>eg</em> <code>.row</code> class using <code>display:flex</code>,
+<code>.span</code> classes using either <code>flex-basis: n</code> or <code>width: n</code>). Use particularly for
+menu layout, for small sets of content like site headers, footers <em>&amp;c</em>.
+Usefully, flex items can ignore source-order, allowing content to be
+easily reordered, switched out or hidden at different media sizes.</p></div></section><nav class="contents"><ol class="contents__list"><li class="contents__entry"><a href="#flexbox-default behaviours" class="contents__entry__link">Flexbox default behaviours</a></li><li class="contents__entry"><a href="#equal-height columns" class="contents__entry__link">Equal height columns</a></li><li class="contents__entry"><a href="#vertical-centering" class="contents__entry__link">Vertical centering</a></li><li class="contents__entry"><a href="#sticky-footer" class="contents__entry__link">Sticky footer</a></li></ol></nav><section id="flexbox-default behaviours" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Flexbox default behaviours</h1></header><div class="chapter__content"><p>Understanding and leveraging the defaults will avoid common issues. So, for
+a flex <em>container</em> declaring:</p>
+
+<pre><code>.flex-container {
+  display: flex;
+}</code></pre>
+
+<p>Is the same as:</p>
+
+<pre><code>.flex-container {
+  display: flex;
+  flex-direction: row; /* 1 */
+  flex-wrap: nowrap; /* 2 */
+  justify-content: flex-start; /* 3 */
+  align-items: stretch; /* 4 */
+}
+
+.flex-item {
+  flex-grow: 0; /* 5 */
+  flex-shrink: 1; /* 6 */
+  flex-basis: auto; /* 7 */
+  order: 0; /* 8 */
+}</code></pre>
+
+<p>The element now has a flex context applied, which begets (line-by-line):</p>
+
+<ol><li>The children of this element lay out on a horizontal <em>main axis</em>.</li><li>The children will not wrap. They will be sized automatically according
+to the size of their content; if that means their total width is larger
+than the <code>.flex-container</code> width, they will break out of the container.</li><li>The children will be laid out consecutively (as they appear in the HTML)
+from the start of the main axis.</li><li>They will stretch on the cross-axis to fill the available space.</li><li>Every flex item will be automatically sized according to the size of its
+content.</li><li>Every flex item will shrink <strong></strong><strong></strong>__.</li><li>Every flex item will have an automatic minimum width applied (same as
+<code>min-width: auto</code>).</li><li>The items will all have the same <code>order</code> value, meaning they display
+in the same order as they appear in the HTML.</li></ol><figure class="figure--static"><div class="figure__content"><img src="images/diagrams--default.svg"></div><figcaption class="figure__caption--static">The default flexbox behaviour.</figcaption></figure><figure class="figure--interactive"><figcaption class="figure__caption--interactive">Amend, add to or delete the values to see changes:</figcaption><div class="figure__content"><pre class="interactive-wrap"><style contenteditable="true" class="interactive-input">.flexample--editable-defaults {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.flexample--editable-defaults > .flexample__item {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  order: 0;
+}</style></pre><div class="interactive-output"><ul class="flexample--editable--defaults"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div></div></figure></div></section><section id="equal-height columns" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Equal height columns</h1></header><div class="chapter__content"><p>Equal height columns, a common layout need, are available out-of-the-box.
+The <code>align-items</code> property defaults to a value of <code>stretch</code>,
+which forces the flex items to expand to fill the container along
+the cross-axis.</p><figure class="figure--interactive"><figcaption class="figure__caption--interactive">By default, `display: flex` provides equal height columns.</figcaption><div class="figure__content"><pre class="interactive-wrap"><style contenteditable="true" class="interactive-input">.flexample--editable--eqheight {
+  display: flex;
+}
+
+.flexample--editable--eqheight > .flexample__item {
+  /* Fill available space on main axis: */
+  flex: 1;
+}</style></pre><div class="interactive-output"><ul class="flexample--editable--eqheight"><li class="flexample__item">Item 1</li><li class="flexample__item">Item 2</li><li class="flexample__item">Item 3</li><li class="flexample__item">Item 4</li><li class="flexample__item">Item 5</li><li class="flexample__item">Item 6</li></ul></div></div></figure></div></section><section id="vertical-centering" class="chapter"><header class="chapter__header"><h1 class="chapter__title">Vertical centering</h1></header><div class="chapter__content"><p>Vertical centering was difficult in CSS, and relied on either knowing the
+explicit height of a container + the item to place in the container, or
+by making use of specific layout hacks. Flexbox fixes this issue:</p><figure class="figure--interactive"><figcaption class="figure__caption--interactive">`align-items: center` vertically centres on a row layout, `justify-content: center` does the same on a column layout.</figcaption><div class="figure__content"><pre class="interactive-wrap"><style contenteditable="true" class="interactive-input">.flexample--editable--vcentre {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}</style></pre><div class="interactive-output"><ul class="flexample--editable--vcentre"><li class="flexample__item">Centred item</li></ul></div></div></figure></div></section><section id="vertical-centering" class="chapter"><header class="chapter__header"><h1 class="chapter__title"><a href="flexbox-examples/vertical-centering.html">Vertical centering</a></h1></header><div class="chapter__content"><p>This depends upon a simple, easily modifiable structure:</p>
+
+<pre><code>&lt;body&gt;
+  &lt;header&gt;&lt;/header&gt;
+  &lt;main&gt;&lt;/main&gt;
+  &lt;footer&gt;&lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+
+<p>To which following CSS is applied:</p>
+
+<pre><code>body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}</code></pre>
+
+<p>The root element (<code>&lt;body&gt;</code> in this case) must be at least the height of the
+viewport (using <code>body, html { min-height: 100%; }</code> will also work as an
+alternative to <em>vh</em> units).</p>
+
+<p><code>diplay: flex</code> is applied, and the main axis set as vertical.</p>
+
+<p><code>&lt;header&gt;</code>/<code>&lt;footer&gt;</code> take on the size of their content, but <code>&lt;main&gt;</code>
+is set to push out to fill the remaining space.</p></div></section></main><footer class="site-footer"><div class="container"><p>This is the footer</p></div></footer><script src="app.js"></script></body></html>

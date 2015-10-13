@@ -1,0 +1,26 @@
+- var siteNav = { "columns": "./columns.html", "flexbox basics": "./flexbox-basics.html", "flexbox examples": "./flexbox-examples.html" }
+
+doctype html
+html
+  head
+    title CSS Examples
+    link(rel="stylesheet", href="app.css")
+
+  body
+    header.container.banner(role="banner")
+      h1.site-title
+        a.site-navigation__item__link--home(href="./index.html") CSS Examples
+      ul.site-navigation
+        each url, title in siteNav
+          li.site-navigation__item
+            a(href="#{url}") #{title}
+
+    main.container(role="main")
+      block content
+
+
+    footer.site-footer
+      .container
+        p This is the footer
+
+    script(src="app.js")

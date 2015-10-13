@@ -1,0 +1,164 @@
+extends ./layout.jade
+include ./mixins.jade
+
+block content
+  -
+    const sections = [
+      'Flexbox default behaviours',
+      'Equal height columns',
+      'Vertical centering',
+      'Sticky footer'
+      ]
+
+  article.article
+    header.article__header
+      h1.article__title Flexbox Examples
+      h2.article__subtitle Native, flexible layouts without need for frameworks.
+
+  +articleLede
+    :markdown
+      **Use for:** Layout as a lightweight and simpler replacement for a
+      full grid structure. Use to create grids (*eg* `.row` class using `display:flex`,
+      `.span` classes using either `flex-basis: n` or `width: n`). Use particularly for
+      menu layout, for small sets of content like site headers, footers *&c*.
+      Usefully, flex items can ignore source-order, allowing content to be
+      easily reordered, switched out or hidden at different media sizes.
+
+  +articleContents(sections)
+
+  +articleChapter(sections[0])
+    :markdown
+      Understanding and leveraging the defaults will avoid common issues. So, for
+      a flex *container* declaring:
+
+          .flex-container {
+            display: flex;
+          }
+
+      Is the same as:
+
+          .flex-container {
+            display: flex;
+            flex-direction: row; /* 1 */
+            flex-wrap: nowrap; /* 2 */
+            justify-content: flex-start; /* 3 */
+            align-items: stretch; /* 4 */
+          }
+
+          .flex-item {
+            flex-grow: 0; /* 5 */
+            flex-shrink: 1; /* 6 */
+            flex-basis: auto; /* 7 */
+            order: 0; /* 8 */
+          }
+
+      The element now has a flex context applied, which begets (line-by-line):
+
+      1. The children of this element lay out on a horizontal *main axis*.
+      2. The children will not wrap. They will be sized automatically according
+      to the size of their content; if that means their total width is larger
+      than the `.flex-container` width, they will break out of the container.
+      3. The children will be laid out consecutively (as they appear in the HTML)
+      from the start of the main axis.
+      4. They will stretch on the cross-axis to fill the available space.
+      5. Every flex item will be automatically sized according to the size of its
+      content.
+      6. Every flex item will shrink __________.
+      7. Every flex item will have an automatic minimum width applied (same as
+      `min-width: auto`).
+      8. The items will all have the same `order` value, meaning they display
+      in the same order as they appear in the HTML.
+
+    +staticExample('The default flexbox behaviour.')
+      img(src="images/diagrams--default.svg")
+
+    +interactiveExample("Amend, add to or delete the values to see changes:")
+      +interactiveInput().
+          .flexample--editable-defaults {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: stretch;
+          }
+
+          .flexample--editable-defaults > .flexample__item {
+            flex-grow: 0;
+            flex-shrink: 1;
+            flex-basis: auto;
+            order: 0;
+          }
+      +interactiveOutput()
+        ul.flexample--editable--defaults
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+  +articleChapter(sections[1])
+    :markdown
+      Equal height columns, a common layout need, are available out-of-the-box.
+      The `align-items` property defaults to a value of `stretch`,
+      which forces the flex items to expand to fill the container along
+      the cross-axis.
+
+    +interactiveExample("By default, `display: flex` provides equal height columns.")
+      +interactiveInput().
+        .flexample--editable--eqheight {
+          display: flex;
+        }
+
+        .flexample--editable--eqheight > .flexample__item {
+          /* Fill available space on main axis: */
+          flex: 1;
+        }
+      +interactiveOutput()
+        ul.flexample--editable--eqheight
+          each val in [1,2,3,4,5,6]
+            li(class="flexample__item") Item #{val}
+
+  +articleChapter(sections[2])
+    :markdown
+      Vertical centering was difficult in CSS, and relied on either knowing the
+      explicit height of a container + the item to place in the container, or
+      by making use of specific layout hacks. Flexbox fixes this issue:
+
+    +interactiveExample('`align-items: center` vertically centres on a row layout, `justify-content: center` does the same on a column layout.')
+      +interactiveInput().
+        .flexample--editable--vcentre {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
+      +interactiveOutput()
+        ul.flexample--editable--vcentre
+          li(class="flexample__item") Centred item
+  +articleLinkedChapter(sections[2])
+    :markdown
+      This depends upon a simple, easily modifiable structure:
+
+          <body>
+            <header></header>
+            <main></main>
+            <footer></footer>
+          </body>
+
+      To which following CSS is applied:
+
+          body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+          }
+
+          main {
+            flex: 1;
+          }
+
+      The root element (`<body>` in this case) must be at least the height of the
+      viewport (using `body, html { min-height: 100%; }` will also work as an
+      alternative to *vh* units).
+
+      `diplay: flex` is applied, and the main axis set as vertical.
+
+      `<header>`/`<footer>` take on the size of their content, but `<main>`
+      is set to push out to fill the remaining space.

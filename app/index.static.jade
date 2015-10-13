@@ -1,0 +1,20 @@
+extends ./layout.jade
+
+block content
+  article.article
+    header.article__header
+      h1.article__title CSS Examples
+      h2.article__subtitle A set of examples of new-ish CSS features.
+
+    header.section.lede
+      .section__content
+        :markdown
+          Several assumptions are being made with these examples. One is that
+          [Sass](http://sass-lang.com/) is being used; the examples are CSS,
+          but do occasionally reference variables. Second is that
+          [Autoprefixer](https://github.com/postcss/autoprefixer) is being used.
+          The latter is extremely simple, Just Works, and is essential
+          unless you really enjoy adding vendor prefixes by hand. There isn't a
+          good reason not to be using it.
+
+

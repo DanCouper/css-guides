@@ -1,0 +1,29 @@
+include ../mixins.jade
+
+doctype html
+html
+  head
+    title Flexbox sticky footer example
+    link(rel="stylesheet", href="../example.css")
+
+  body
+    header.site-header(role="banner")
+      .container
+        h1.site-title Flexbox sticky footer example
+
+    main.container(role="main")
+      +interactiveExample('Edit the code to see live changes:')
+        +interactiveInput().
+          body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+          }
+
+          main {
+            flex: 1;
+          }
+
+    footer.site-footer
+      .container
+        p: a(href="../flexbox-examples.html") Return to the examples page
